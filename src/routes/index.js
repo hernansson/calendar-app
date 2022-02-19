@@ -4,14 +4,14 @@ import Calendar from '../pages/Calendar';
 const Routes = [
   {
     path: '/',
-    component: App,
-    exact: true
+    component: <App />,
+    exact: true,
   },
   {
     path: '/calendar',
-    component: Calendar,
-    exact: true
-  }
+    component: <Calendar />,
+    exact: true,
+  },
 ];
 
 export default Routes;
