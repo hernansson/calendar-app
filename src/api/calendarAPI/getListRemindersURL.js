@@ -12,6 +12,7 @@ export const getListRemindersURL = async (month) => {
         'content-type': 'application/json',
       },
     });
+
     return data;
   } else {
     throw console.error();

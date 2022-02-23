@@ -3,15 +3,12 @@ import { Stack, Box, Typography, IconButton } from '@mui/material';
 import { CalendarContext } from '../context/calendarContext';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import AddEventModal from '../components/calendar/AddEventModal';
-import Day from '../components/calendar/Day';
+
 import { getMonthName } from '../utils/timeFunctions';
-import { getListRemindersURL } from '../api/calendarAPI/getListRemindersURL';
-import { username, mainCalendar } from '../configs/calendar/calendarConfig';
-import useFetch from '../customHooks/useFetch';
 
 function Calendar(props) {
-  const { month, setMonth, monthInfo } = useContext(CalendarContext);
+  const { month, setMonth, monthInfo, loadingContext } =
+    useContext(CalendarContext);
 
   return (
     <>
@@ -76,16 +73,12 @@ function Calendar(props) {
               />
             </IconButton>
           </Box>
+
           <Stack>
             {Object.keys(monthInfo).map((week) => (
-              <Stack
-                direction='row'
-                spacing={0.5}
-                justifyContent='center'
-                mt={0.5}
-              >
+              <Stack direction='row' spacing={0.5} justifyContent='center'>
                 {monthInfo[week].map((day) => (
-                  <Stack spacing={2}>{day}</Stack>
+                  <Stack spacing={0.5}>{day}</Stack>
                 ))}
               </Stack>
             ))}

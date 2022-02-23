@@ -3,15 +3,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { validationSchema } from './validationSchemas';
 import SaveIcon from '@mui/icons-material/Save';
-import { createReminder } from '../../api/calendarAPI/createReminder';
+import { updateReminder } from '../../api/calendarAPI/updateReminder';
 import { CalendarContext } from '../../context/calendarContext';
 import { useContext } from 'react';
 import { styles } from './styles';
 
-export default function AddEventModal({ open, setOpen, day }) {
-  const { setTriggerUpdate, reminderIds } = useContext(CalendarContext);
+export default function EditEventModal({ open, handleModalEdit, data }) {
+  const { setTriggerUpdate } = useContext(CalendarContext);
 
-  const handleClose = () => setOpen(false);
+  const { title, city, description, id, time } = data;
   const {
     setValue,
     register,
@@ -22,26 +22,27 @@ export default function AddEventModal({ open, setOpen, day }) {
     resolver: yupResolver(validationSchema),
   });
   const onSubmit = (data) => {
-    createReminder(day, data).then((res) => {
+    updateReminder(id, data).then((res) => {
       setTriggerUpdate((prev) => !prev);
-      handleClose();
+      handleModalEdit(id);
       console.log('created Succesfully', res);
     });
   };
   return (
     <div>
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={open} onClose={() => handleModalEdit(id)}>
         <Box sx={styles.box}>
           <Box sx={styles.modalText}>
             <Typography
               sx={{ fontWeight: '400', fontSize: '20px' }}
-            >{`${day}/02 - Add Event`}</Typography>
+            >{`${title}`}</Typography>
             <TextField
               id={'title'}
               name={'title'}
               label={'Title'}
               required={true}
               fullWidth
+              defaultValue={title}
               margin='dense'
               variant='standard'
               autoComplete='off'
@@ -63,7 +64,7 @@ export default function AddEventModal({ open, setOpen, day }) {
               name={'time'}
               variant='standard'
               type='time'
-              defaultValue='07:30'
+              defaultValue={time}
               {...register('time')}
               error={errors['time'] ? true : false}
               InputLabelProps={{
@@ -89,6 +90,7 @@ export default function AddEventModal({ open, setOpen, day }) {
               label={'City'}
               required={true}
               fullWidth
+              defaultValue={city}
               margin='dense'
               variant='standard'
               autoComplete='off'
@@ -109,6 +111,7 @@ export default function AddEventModal({ open, setOpen, day }) {
               name={'description'}
               label={'Description'}
               fullWidth
+              defaultValue={description}
               margin='dense'
               variant='standard'
               autoComplete='off'
