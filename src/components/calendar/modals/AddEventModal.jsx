@@ -1,12 +1,12 @@
 import { TextField, Typography, Button, Box, Modal } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { validationSchema } from './validationSchemas';
+import { validationSchema } from '../../validations/validationSchemas';
 import SaveIcon from '@mui/icons-material/Save';
-import { createReminder } from '../../api/calendarAPI/createReminder';
-import { CalendarContext } from '../../context/calendarContext';
+import { createReminder } from '../../../api/calendarAPI/createReminder';
+import { CalendarContext } from '../../../context/calendarContext';
 import { useContext } from 'react';
-import { styles } from './styles';
+import { styles } from '../styles';
 
 export default function AddEventModal({ open, setOpen, day }) {
   const { setTriggerUpdate, reminderIds } = useContext(CalendarContext);
@@ -32,10 +32,10 @@ export default function AddEventModal({ open, setOpen, day }) {
     <div>
       <Modal open={open} onClose={handleClose}>
         <Box sx={styles.box}>
+          <Typography
+            sx={{ fontWeight: '400', fontSize: '20px' }}
+          >{`${day}/02 - Add Event`}</Typography>
           <Box sx={styles.modalText}>
-            <Typography
-              sx={{ fontWeight: '400', fontSize: '20px' }}
-            >{`${day}/02 - Add Event`}</Typography>
             <TextField
               id={'title'}
               name={'title'}
@@ -142,7 +142,7 @@ export default function AddEventModal({ open, setOpen, day }) {
               onClick={handleSubmit(onSubmit)}
               startIcon={<SaveIcon sx={{ width: '18px', heigth: '18px' }} />}
             >
-              Save
+              Create
             </Button>
           </Box>
         </Box>

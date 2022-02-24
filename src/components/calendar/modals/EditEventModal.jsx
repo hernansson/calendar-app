@@ -1,36 +1,49 @@
 import { TextField, Typography, Button, Box, Modal } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { validationSchema } from './validationSchemas';
-import SaveIcon from '@mui/icons-material/Save';
-import { updateReminder } from '../../api/calendarAPI/updateReminder';
-import { CalendarContext } from '../../context/calendarContext';
-import { useContext } from 'react';
-import { styles } from './styles';
+import { validationSchema } from '../../validations/validationSchemas';
+import { updateReminder } from '../../../api/calendarAPI/updateReminder';
+import { CalendarContext } from '../../../context/calendarContext';
+import { useContext, useState } from 'react';
+import { styles } from '../styles';
+import DeleteButton from '../DeleteButton';
+import SaveButton from '../SaveButton';
 
 export default function EditEventModal({ open, handleModalEdit, data }) {
   const { setTriggerUpdate } = useContext(CalendarContext);
-
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+  const [openConfirmSave, setOpenConfirmSave] = useState(false);
   const { title, city, description, id, time } = data;
   const {
     setValue,
     register,
+    getValues,
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+  const handleConfirmDelete = () => {
+    setOpenConfirmDelete((prev) => !prev);
+  };
+  const handleConfirmSave = () => {
+    setOpenConfirmSave((prev) => !prev);
+  };
+  const handleClose = () => {
+    handleModalEdit(id);
+  };
   const onSubmit = (data) => {
+    console.log(data);
     updateReminder(id, data).then((res) => {
       setTriggerUpdate((prev) => !prev);
-      handleModalEdit(id);
+
       console.log('created Succesfully', res);
     });
   };
   return (
     <div>
-      <Modal open={open} onClose={() => handleModalEdit(id)}>
+      <Modal open={open} onClose={() => handleClose()}>
         <Box sx={styles.box}>
           <Box sx={styles.modalText}>
             <Typography
@@ -134,19 +147,19 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
               justifyContent: 'flex-end',
             }}
           >
-            <Button
-              variant='contained'
-              sx={{
-                backgroundColor: 'primary.main',
-                color: 'primary.contrastText',
-                minWidth: '64px',
-                '&hover': '',
-              }}
-              onClick={handleSubmit(onSubmit)}
-              startIcon={<SaveIcon sx={{ width: '18px', heigth: '18px' }} />}
-            >
-              Save
-            </Button>
+            <DeleteButton
+              handleConfirm={handleConfirmDelete}
+              isOpen={openConfirmDelete}
+              id={id}
+              handleClose={handleClose}
+            />
+            <SaveButton
+              id={id}
+              handleSubmit={handleSubmit(onSubmit)}
+              handleConfirm={handleConfirmSave}
+              isOpen={openConfirmSave}
+              handleClose={handleClose}
+            />
           </Box>
         </Box>
       </Modal>
