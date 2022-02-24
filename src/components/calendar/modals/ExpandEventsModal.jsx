@@ -1,33 +1,28 @@
 import {
   Typography,
-  Button,
   IconButton,
   Box,
   Modal,
   List,
   ListItem,
-  ListItemAvatar,
-  Avatar,
   ListItemText,
   ListItemButton,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import FolderIcon from '@mui/icons-material/Folder';
+import CloseButton from '../../buttons/CloseButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { CalendarContext } from '../../../context/calendarContext';
 import { useEffect, useState, cloneElement } from 'react';
 import { styles } from '../styles';
 import { getRemindersByDay } from '../../../api/calendarAPI/getRemindersByDay';
 import AddEventModal from './AddEventModal';
-import DeleteButton from '../DeleteButton';
+import DeleteButton from '../../buttons/DeleteButton';
+import CircularProgress from '@mui/material/CircularProgress';
+import { memo } from 'react';
 const ExpandEventsModal = ({ day }) => {
-  // const { setTriggerUpdate, reminderIds } = useContext(CalendarContext);
   const [reminders, setReminders] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [open, setOpen] = useState(false);
-  const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const handleConfirmDelete = () => {
     setOpenConfirmDelete((prev) => !prev);
@@ -53,7 +48,7 @@ const ExpandEventsModal = ({ day }) => {
     console.error(error); // Creating an error component would be ideal, but time.
   }
   if (loading) {
-    return 'Loading'; // Also loader component. (same for every request.)
+    return <CircularProgress />;
   }
   return (
     <>
@@ -62,14 +57,7 @@ const ExpandEventsModal = ({ day }) => {
       </IconButton>
       <Modal open={open} onClose={handleClose}>
         <Box sx={styles.box}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <IconButton
-              sx={{ display: 'flex', justifyContent: 'flex-end' }}
-              onClick={handleClose}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Box>
+          <CloseButton handleClose={handleClose} />
           <Box sx={{ paddingLeft: '32px' }}>
             <Typography
               color='text.primary'
@@ -102,11 +90,11 @@ const ExpandEventsModal = ({ day }) => {
             ))}
           </List>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <AddEventModal open={isOpenAdd} setOpen={setIsOpenAdd} day={day} />
+            <AddEventModal day={day} minimalist={true} />
           </Box>
         </Box>
       </Modal>
     </>
   );
 };
-export default ExpandEventsModal;
+export default memo(ExpandEventsModal);

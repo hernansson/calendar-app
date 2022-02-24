@@ -1,18 +1,27 @@
-import { TextField, Typography, Button, Box, Modal } from '@mui/material';
+import {
+  TextField,
+  Typography,
+  Button,
+  Box,
+  Modal,
+  IconButton,
+} from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { validationSchema } from '../../validations/validationSchemas';
 import SaveIcon from '@mui/icons-material/Save';
 import { createReminder } from '../../../api/calendarAPI/createReminder';
 import { CalendarContext } from '../../../context/calendarContext';
-import { useContext } from 'react';
+import { memo, useContext } from 'react';
 import { styles } from '../styles';
 import { AddEventTypo } from '../../styledComponents/AddEventTypo';
 import { useState } from 'react';
 import { getWeatherInitials } from '../../../utils/getWeatherInitials';
 import WeatherIcon from '../WeatherIcon';
-export default function AddEventModal({ day }) {
-  const { setTriggerUpdate, reminderIds } = useContext(CalendarContext);
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import CloseButton from '../../buttons/CloseButton';
+const AddEventModal = ({ day, minimalist }) => {
+  const { setTriggerUpdate } = useContext(CalendarContext);
   const [open, setOpen] = useState(false);
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
@@ -46,17 +55,26 @@ export default function AddEventModal({ day }) {
   };
   return (
     <div>
-      <AddEventTypo
-        color='text.primary'
-        sx={{ opacity: '55%' }}
-        onClick={handleModal}
-      >
-        + Event
-      </AddEventTypo>
+      {minimalist ? (
+        <IconButton onClick={handleModal}>
+          <AddCircleIcon />
+        </IconButton>
+      ) : (
+        <AddEventTypo
+          color='text.primary'
+          sx={{ opacity: '55%' }}
+          onClick={handleModal}
+        >
+          + Event
+        </AddEventTypo>
+      )}
+
       <Modal open={open} onClose={handleModal}>
         <Box sx={styles.box}>
           <Box sx={styles.modalText}>
+            <CloseButton handleClose={handleModal} />
             <Typography
+              color='text.primary'
               sx={{ fontWeight: '400', fontSize: '20px' }}
             >{`${day}/02 - Add Event`}</Typography>
             <TextField
@@ -167,4 +185,5 @@ export default function AddEventModal({ day }) {
       </Modal>
     </div>
   );
-}
+};
+export default memo(AddEventModal);

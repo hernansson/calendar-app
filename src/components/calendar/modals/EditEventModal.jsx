@@ -1,37 +1,40 @@
-import { TextField, Typography, Button, Box, Modal } from '@mui/material';
+import { TextField, Typography, IconButton, Box, Modal } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { validationSchema } from '../../validations/validationSchemas';
 import { updateReminder } from '../../../api/calendarAPI/updateReminder';
 import { CalendarContext } from '../../../context/calendarContext';
-import { useContext, useState } from 'react';
+import { memo, useContext, useState } from 'react';
 import { styles } from '../styles';
-import DeleteButton from '../DeleteButton';
-import SaveButton from '../SaveButton';
+import DeleteButton from '../../buttons/DeleteButton';
+import SaveButton from '../../buttons/SaveButton';
 import WeatherIcon from '../WeatherIcon';
 import { getWeatherInitials } from '../../../utils/getWeatherInitials';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import CloseButton from '../../buttons/CloseButton';
+import EditIcon from '@mui/icons-material/Edit';
 
 //As im using useForm, I have some conflicts using the onBlur on register. So just created a state to manage city
 //separately. So as to show a weather icon on demand.
-export default function EditEventModal({ open, handleModalEdit, data }) {
+const EditEventModal = ({ open, handleModalEdit, data }) => {
   const { setTriggerUpdate } = useContext(CalendarContext);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [openConfirmSave, setOpenConfirmSave] = useState(false);
   const { title, city, description, id, time, weather } = data;
   const [cityEdit, setCityEdit] = useState(city);
   const [weatherEdit, setWeatherEdit] = useState(weather);
-
+  const [isEditable, setIsEditable] = useState(false);
   const {
-    setValue,
     register,
-    getValues,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  const handleEdit = () => {
+    setIsEditable((prev) => !prev);
+  };
   const handleCity = (e) => {
     setCityEdit(e.target.value);
   };
@@ -62,17 +65,31 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
   };
   return (
     <div>
-      <Modal open={open} onClose={() => handleClose()}>
+      <Modal open={open} onClose={handleClose}>
         <Box sx={styles.box}>
           <Box sx={styles.modalText}>
-            <Typography
-              sx={{ fontWeight: '400', fontSize: '20px' }}
-            >{`${''}Edit Reminder`}</Typography>
+            <CloseButton handleClose={handleClose} />
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Typography
+                sx={{ fontWeight: '400', fontSize: '20px' }}
+              >{`${''}Edit Reminder`}</Typography>
+              <IconButton onClick={handleEdit}>
+                <EditIcon />
+              </IconButton>
+            </Box>
+
             <TextField
               id={'title'}
               name={'title'}
               label={'Title'}
               required={true}
+              disabled={!isEditable}
               fullWidth
               defaultValue={title}
               margin='dense'
@@ -95,6 +112,7 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
               label='Time'
               name={'time'}
               variant='standard'
+              disabled={!isEditable}
               type='time'
               defaultValue={time}
               {...register('time')}
@@ -116,6 +134,7 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
               label={'City'}
               required={true}
               fullWidth
+              disabled={!isEditable}
               defaultValue={city}
               margin='dense'
               variant='standard'
@@ -138,6 +157,7 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
               name={'description'}
               label={'Description'}
               fullWidth
+              disabled={!isEditable}
               defaultValue={description}
               margin='dense'
               variant='standard'
@@ -168,16 +188,19 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
               handleClose={handleClose}
               icon={<DeleteForeverIcon />}
             />
-            <SaveButton
-              id={id}
-              handleSubmit={handleSubmit(onSubmit)}
-              handleConfirm={handleConfirmSave}
-              isOpen={openConfirmSave}
-              handleClose={handleClose}
-            />
+            {isEditable && (
+              <SaveButton
+                id={id}
+                handleSubmit={handleSubmit(onSubmit)}
+                handleConfirm={handleConfirmSave}
+                isOpen={openConfirmSave}
+                handleClose={handleClose}
+              />
+            )}
           </Box>
         </Box>
       </Modal>
     </div>
   );
-}
+};
+export default memo(EditEventModal);

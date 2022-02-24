@@ -1,5 +1,5 @@
-import Confirm from './modals/ConfirmModal';
-import ButtonDialog from './modals/ButtonDialog';
+import Confirm from '../calendar/modals/ConfirmModal';
+import ButtonDialog from '../calendar/modals/ButtonDialog';
 import { Button } from '@mui/material';
 import { deleteReminder } from '../../api/calendarAPI/deleteReminder';
 import { useContext, useState } from 'react';

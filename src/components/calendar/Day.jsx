@@ -1,25 +1,17 @@
 import { useState, useContext } from 'react';
-import { Box, Typography, IconButton } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import AddEventModal from './modals/AddEventModal';
 import { EditTypo } from '../styledComponents/EditTypo';
 import { StyledCard } from '../styledComponents/StyledCard';
 import EditEventModal from './modals/EditEventModal';
 import { CalendarContext } from '../../context/calendarContext';
 import ExpandEventsModal from './modals/ExpandEventsModal';
-import { days } from '../../constants/days';
+import { getDayString } from '../../utils/getDayString';
 import '@fontsource/roboto/500.css';
 export default function Day({ number, reminders }) {
-  const { reminderIds, loadingContext } = useContext(CalendarContext);
-  const [openAdd, setOpenAdd] = useState(false);
+  const { reminderIds } = useContext(CalendarContext);
   const [openEdit, setOpenEdit] = useState(reminderIds);
-  const [openList, setOpenList] = useState(false);
 
-  const handleOpenList = () => {
-    setOpenList((prev) => !prev);
-  };
-  const handleModalAdd = () => {
-    setOpenAdd((prev) => !prev);
-  };
   const handleModalEdit = (e) => {
     setOpenEdit({ ...openEdit, [e]: !openEdit[e] });
   };
@@ -69,11 +61,7 @@ export default function Day({ number, reminders }) {
                     }}
                   >
                     {/*should go month, if my API supported it :D*/}
-                    {number
-                      ? days[
-                          new Date(`February ${number},2022`).getDay()
-                        ].slice(0, 3)
-                      : null}
+                    {number && getDayString(number)}
                   </Typography>
                 </Box>
               </Box>
