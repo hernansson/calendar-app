@@ -1,20 +1,12 @@
-import { useState, useContext } from 'react';
 import { Box, Typography } from '@mui/material';
 import AddEventModal from './modals/AddEventModal';
-import { EditTypo } from '../styledComponents/EditTypo';
 import { StyledCard } from '../styledComponents/StyledCard';
-import EditEventModal from './modals/EditEventModal';
-import { CalendarContext } from '../../context/calendarContext';
 import ExpandEventsModal from './modals/ExpandEventsModal';
 import { getDayString } from '../../utils/getDayString';
+import ShowOneEvent from './ShowOneEvent';
+import ShowTwoEvents from './ShowTwoEvents';
 import '@fontsource/roboto/500.css';
 export default function Day({ number, reminders }) {
-  const { reminderIds } = useContext(CalendarContext);
-  const [openEdit, setOpenEdit] = useState(reminderIds);
-
-  const handleModalEdit = (e) => {
-    setOpenEdit({ ...openEdit, [e]: !openEdit[e] });
-  };
   return (
     <>
       {number ? (
@@ -70,102 +62,20 @@ export default function Day({ number, reminders }) {
                 sx={{ display: 'flex', flexDirection: 'column', height: '80%' }}
               >
                 {reminders?.length > 0 ? (
-                  reminders.length == 1 ? (
-                    <Box
-                      sx={{
-                        height: '80%',
-                        paddingTop: '8px',
-                        paddingLeft: '8px',
-                      }}
-                    >
-                      <Box
-                        onClick={() => handleModalEdit(reminders[0].id)}
-                        sx={{ paddingBottom: '8px' }}
-                      >
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            flexDirecction: 'column',
-                          }}
-                        >
-                          <EditTypo
-                            noWrap
-                            sx={{ fontSize: '14px' }}
-                          >{`${reminders[0].title}`}</EditTypo>
-                        </Box>
-                        <Box>
-                          <EditTypo
-                            sx={{ fontSize: '14px' }}
-                          >{`${reminders[0].time}`}</EditTypo>
-                        </Box>
-                      </Box>
-                      <AddEventModal day={number} />
-                      <EditEventModal
-                        data={reminders[0]}
-                        open={openEdit[reminders[0].id]}
-                        handleModalEdit={handleModalEdit}
-                      />
-                    </Box>
+                  reminders.length === 1 ? (
+                    <ShowOneEvent reminder={reminders[0]} day={number} />
                   ) : (
                     <>
                       <Box
                         sx={{
                           height: '80%',
-
+                          paddingTop: '8px',
                           paddingLeft: '8px',
-                          display: 'flex',
-                          flexDirection: 'column',
                         }}
                       >
-                        <Box
-                          onClick={() => handleModalEdit(reminders[0].id)}
-                          sx={{ paddingBottom: '8px' }}
-                        >
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              flexDirecction: 'column',
-                            }}
-                          >
-                            <EditTypo
-                              noWrap
-                              sx={{ fontSize: '14px' }}
-                            >{`${reminders[0].title}`}</EditTypo>
-                          </Box>
-                          <Box>
-                            <EditTypo
-                              sx={{ fontSize: '14px' }}
-                            >{`${reminders[0].time}`}</EditTypo>
-                          </Box>
-                        </Box>
-
-                        <EditEventModal
-                          data={reminders[0]}
-                          open={openEdit[reminders[0].id]}
-                          handleModalEdit={handleModalEdit}
-                        />
-                        <Box onClick={() => handleModalEdit(reminders[1].id)}>
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              flexDirecction: 'column',
-                            }}
-                          >
-                            <EditTypo
-                              sx={{ fontSize: '14px' }}
-                              noWrap
-                            >{`${reminders[1].title}`}</EditTypo>
-                          </Box>
-                          <Box>
-                            <EditTypo
-                              sx={{ fontSize: '14px' }}
-                            >{`${reminders[1].time}`}</EditTypo>
-                          </Box>
-                        </Box>
-                        <EditEventModal
-                          data={reminders[1]}
-                          open={openEdit[reminders[1].id]}
-                          handleModalEdit={handleModalEdit}
+                        <ShowTwoEvents
+                          reminderOne={reminders[0]}
+                          reminderTwo={reminders[1]}
                         />
                       </Box>
                       <Box

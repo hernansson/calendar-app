@@ -1,18 +1,15 @@
-import { useContext } from 'react';
+import { memo, useContext } from 'react';
 import {
   AppBar,
   Box,
   Toolbar,
   Typography,
-  IconButton,
-  MenuIcon,
   Switch,
   FormControlLabel,
-  FormGroup,
 } from '@mui/material';
 
 import { themeContext } from '../../context/themeContext';
-export default function NavBar() {
+const NavBar = () => {
   const { theme, colorMode } = useContext(themeContext);
 
   return (
@@ -42,4 +39,5 @@ export default function NavBar() {
       </AppBar>
     </Box>
   );
-}
+};
+export default memo(NavBar);

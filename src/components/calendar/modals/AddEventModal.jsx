@@ -30,9 +30,7 @@ const AddEventModal = ({ day, minimalist }) => {
   };
   const handleModal = () => setOpen((prev) => !prev);
   const {
-    setValue,
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm({

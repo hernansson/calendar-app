@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext } from 'react';
 import { Stack, Box, Typography, IconButton } from '@mui/material';
 import { CalendarContext } from '../context/calendarContext';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
@@ -6,9 +6,8 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
 import { getMonthName } from '../utils/timeFunctions';
 
-function Calendar(props) {
-  const { month, setMonth, monthInfo, loadingContext } =
-    useContext(CalendarContext);
+function Calendar() {
+  const { month, setMonth, monthInfo } = useContext(CalendarContext);
 
   return (
     <>

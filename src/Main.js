@@ -12,7 +12,7 @@ function Main() {
     <div
       className='main'
       style={{
-        backgroundColor: theme.palette.mode == 'light' ? 'white' : '#121212',
+        backgroundColor: theme.palette.mode === 'light' ? 'white' : '#121212',
       }}
     >
       <ThemeProvider theme={theme}>

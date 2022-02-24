@@ -15,6 +15,6 @@ export const getListRemindersURL = async (month) => {
 
     return data;
   } else {
-    throw console.error();
+    throw console.error('No API Support pot other months');
   }
 };

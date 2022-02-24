@@ -42,7 +42,7 @@ const ExpandEventsModal = ({ day }) => {
         .catch((err) => setError(err))
         .finally(setLoading(false));
     }
-  }, [open]);
+  }, [open, day]);
 
   if (error) {
     console.error(error); // Creating an error component would be ideal, but time.

@@ -1,5 +1,5 @@
-import { useMemo, useState, createContext, useEffect } from 'react';
-
+import { useState, createContext, useEffect } from 'react';
+import { getAllIds } from '../utils/getAllIds';
 import { getListRemindersURL } from '../api/calendarAPI/getListRemindersURL';
 import { fillCalendar } from '../utils/fillCalendar';
 import { updateCalendar } from '../utils/updateCalendar';
@@ -9,22 +9,14 @@ const CalendarProvider = ({ children }) => {
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [monthInfo, setMonthInfo] = useState(fillCalendar(month));
   const [triggerUpdate, setTriggerUpdate] = useState(false);
-  const [reminderIds, setRemindersIds] = useState();
-  const getAllIds = (data) => {
-    const ids = data.flatMap((rem) => rem.reminders).map((remi) => remi.id);
-    const objtIds = ids.reduce(function (acc, cur, i) {
-      acc[cur] = false;
-      return acc;
-    }, {});
+  const [isModalReminderOpen, setIsModalReminderOpen] = useState();
 
-    return objtIds;
-  };
   useEffect(() => {
     setMonthInfo(fillCalendar(month)); //API I chose does not support more request. At least show them empty
 
     getListRemindersURL(month)
       .then((reminders) => {
-        setRemindersIds(getAllIds(reminders));
+        setIsModalReminderOpen(getAllIds(reminders));
         setMonthInfo(updateCalendar(reminders, monthInfo, month));
       })
       .catch((err) =>
@@ -42,7 +34,8 @@ const CalendarProvider = ({ children }) => {
         setMonth,
         monthInfo,
         setTriggerUpdate,
-        reminderIds,
+        isModalReminderOpen,
+        setIsModalReminderOpen,
       }}
     >
       {children}
