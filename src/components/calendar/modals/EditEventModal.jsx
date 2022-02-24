@@ -8,12 +8,20 @@ import { useContext, useState } from 'react';
 import { styles } from '../styles';
 import DeleteButton from '../DeleteButton';
 import SaveButton from '../SaveButton';
+import WeatherIcon from '../WeatherIcon';
+import { getWeatherInitials } from '../../../utils/getWeatherInitials';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
+//As im using useForm, I have some conflicts using the onBlur on register. So just created a state to manage city
+//separately. So as to show a weather icon on demand.
 export default function EditEventModal({ open, handleModalEdit, data }) {
   const { setTriggerUpdate } = useContext(CalendarContext);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [openConfirmSave, setOpenConfirmSave] = useState(false);
-  const { title, city, description, id, time } = data;
+  const { title, city, description, id, time, weather } = data;
+  const [cityEdit, setCityEdit] = useState(city);
+  const [weatherEdit, setWeatherEdit] = useState(weather);
+
   const {
     setValue,
     register,
@@ -24,8 +32,18 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+  const handleCity = (e) => {
+    setCityEdit(e.target.value);
+  };
   const handleConfirmDelete = () => {
     setOpenConfirmDelete((prev) => !prev);
+  };
+  const handleBlur = (e) => {
+    const city = e.target.value;
+
+    getWeatherInitials(city)
+      .then((abb) => setWeatherEdit(abb))
+      .catch((err) => console.error(err));
   };
   const handleConfirmSave = () => {
     setOpenConfirmSave((prev) => !prev);
@@ -34,12 +52,13 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
     handleModalEdit(id);
   };
   const onSubmit = (data) => {
-    console.log(data);
-    updateReminder(id, data).then((res) => {
-      setTriggerUpdate((prev) => !prev);
+    updateReminder(id, { ...data, city: cityEdit, weather: weatherEdit }).then(
+      (res) => {
+        setTriggerUpdate((prev) => !prev);
 
-      console.log('created Succesfully', res);
-    });
+        console.log('created Succesfully', res);
+      }
+    );
   };
   return (
     <div>
@@ -48,7 +67,7 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
           <Box sx={styles.modalText}>
             <Typography
               sx={{ fontWeight: '400', fontSize: '20px' }}
-            >{`${title}`}</Typography>
+            >{`${''}Edit Reminder`}</Typography>
             <TextField
               id={'title'}
               name={'title'}
@@ -88,13 +107,7 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
               }}
               sx={{ width: 150 }}
             />
-            <Typography
-              variant='inherit'
-              color='error'
-              style={{ textAlign: 'left' }}
-            >
-              {errors['time']?.message}
-            </Typography>
+            <WeatherIcon weather={weatherEdit} />
           </Box>
           <Box sx={styles.modalText}>
             <TextField
@@ -107,7 +120,8 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
               margin='dense'
               variant='standard'
               autoComplete='off'
-              {...register('city')}
+              onChange={handleCity}
+              onBlur={handleBlur}
               error={errors['city'] ? true : false}
             />
             <Typography
@@ -152,6 +166,7 @@ export default function EditEventModal({ open, handleModalEdit, data }) {
               isOpen={openConfirmDelete}
               id={id}
               handleClose={handleClose}
+              icon={<DeleteForeverIcon />}
             />
             <SaveButton
               id={id}

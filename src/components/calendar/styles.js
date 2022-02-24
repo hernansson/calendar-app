@@ -8,7 +8,7 @@ export const styles = {
     bgcolor: 'background.paper',
     boxShadow: 24,
     borderRadius: '4px',
-    p: 2,
+    p: 4,
   },
   modalText: {
     paddingTop: '16px',

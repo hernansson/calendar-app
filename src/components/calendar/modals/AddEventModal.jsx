@@ -7,11 +7,19 @@ import { createReminder } from '../../../api/calendarAPI/createReminder';
 import { CalendarContext } from '../../../context/calendarContext';
 import { useContext } from 'react';
 import { styles } from '../styles';
-
-export default function AddEventModal({ open, setOpen, day }) {
+import { AddEventTypo } from '../../styledComponents/AddEventTypo';
+import { useState } from 'react';
+import { getWeatherInitials } from '../../../utils/getWeatherInitials';
+import WeatherIcon from '../WeatherIcon';
+export default function AddEventModal({ day }) {
   const { setTriggerUpdate, reminderIds } = useContext(CalendarContext);
-
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false);
+  const [city, setCity] = useState('');
+  const [weather, setWeather] = useState(null);
+  const handleCity = (e) => {
+    setCity(e.target.value);
+  };
+  const handleModal = () => setOpen((prev) => !prev);
   const {
     setValue,
     register,
@@ -21,21 +29,36 @@ export default function AddEventModal({ open, setOpen, day }) {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+  //I'll use async await, just show . but Its always better to choose one.
+
+  const handleBlur = (e) => {
+    const city = e.target.value;
+    getWeatherInitials(city)
+      .then((abb) => setWeather(abb))
+      .catch((err) => console.error(err));
+  };
   const onSubmit = (data) => {
-    createReminder(day, data).then((res) => {
+    createReminder(day, { ...data, city, weather }).then((res) => {
       setTriggerUpdate((prev) => !prev);
-      handleClose();
+      handleModal();
       console.log('created Succesfully', res);
     });
   };
   return (
     <div>
-      <Modal open={open} onClose={handleClose}>
+      <AddEventTypo
+        color='text.primary'
+        sx={{ opacity: '55%' }}
+        onClick={handleModal}
+      >
+        + Event
+      </AddEventTypo>
+      <Modal open={open} onClose={handleModal}>
         <Box sx={styles.box}>
-          <Typography
-            sx={{ fontWeight: '400', fontSize: '20px' }}
-          >{`${day}/02 - Add Event`}</Typography>
           <Box sx={styles.modalText}>
+            <Typography
+              sx={{ fontWeight: '400', fontSize: '20px' }}
+            >{`${day}/02 - Add Event`}</Typography>
             <TextField
               id={'title'}
               name={'title'}
@@ -74,25 +97,20 @@ export default function AddEventModal({ open, setOpen, day }) {
               }}
               sx={{ width: 150 }}
             />
-            <Typography
-              variant='inherit'
-              color='error'
-              style={{ textAlign: 'left' }}
-            >
-              {errors['time']?.message}
-            </Typography>
+
+            <WeatherIcon weather={weather} />
           </Box>
           <Box sx={styles.modalText}>
             <TextField
               id={'city'}
               name={'city'}
               label={'City'}
-              required={true}
               fullWidth
               margin='dense'
               variant='standard'
               autoComplete='off'
-              {...register('city')}
+              onChange={handleCity}
+              onBlur={handleBlur}
               error={errors['city'] ? true : false}
             />
             <Typography

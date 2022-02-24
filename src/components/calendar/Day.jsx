@@ -1,12 +1,13 @@
 import { useState, useContext } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
 import AddEventModal from './modals/AddEventModal';
-import { AddEventTypo } from '../styledComponents/AddEventTypo';
 import { EditTypo } from '../styledComponents/EditTypo';
 import { StyledCard } from '../styledComponents/StyledCard';
 import EditEventModal from './modals/EditEventModal';
 import { CalendarContext } from '../../context/calendarContext';
 import ExpandEventsModal from './modals/ExpandEventsModal';
+import { days } from '../../constants/days';
+import '@fontsource/roboto/500.css';
 export default function Day({ number, reminders }) {
   const { reminderIds, loadingContext } = useContext(CalendarContext);
   const [openAdd, setOpenAdd] = useState(false);
@@ -28,49 +29,89 @@ export default function Day({ number, reminders }) {
         <>
           <Box>
             <StyledCard
-              elevation={3}
+              elevation={2}
               sx={{
                 width: 128,
                 height: 128,
               }}
             >
-              <Box
-                sx={{
-                  height: '25%',
-                  width: '20%',
-                  backgroundColor: 'warning.main',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <Typography
-                  sx={{ fontSize: '20px', color: 'primary.contrastText' }}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Box
+                  sx={{
+                    height: '25%',
+                    width: '25%',
+                    backgroundColor: 'warning.main',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
                 >
-                  {number}
-                </Typography>
+                  <Typography
+                    sx={{ fontSize: '20px', color: 'primary.contrastText' }}
+                  >
+                    {number}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    height: '25%',
+                    width: '25%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    paddingRight: '16px',
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: '20px',
+                      color: 'primary.main',
+                      fontFamily: 'Roboto',
+                      fontWeight: '400',
+                    }}
+                  >
+                    {/*should go month, if my API supported it :D*/}
+                    {number
+                      ? days[
+                          new Date(`February ${number},2022`).getDay()
+                        ].slice(0, 3)
+                      : null}
+                  </Typography>
+                </Box>
               </Box>
+
               <Box
                 sx={{ display: 'flex', flexDirection: 'column', height: '80%' }}
               >
                 {reminders?.length > 0 ? (
                   reminders.length == 1 ? (
-                    <Box sx={{ height: '80%' }}>
+                    <Box
+                      sx={{
+                        height: '80%',
+                        paddingTop: '8px',
+                        paddingLeft: '8px',
+                      }}
+                    >
                       <Box
-                        onClick={() => {
-                          handleModalEdit(reminders[0].id);
-                        }}
-                        sx={{
-                          display: 'flex',
-                          flexDirecction: 'row',
-                        }}
+                        onClick={() => handleModalEdit(reminders[0].id)}
+                        sx={{ paddingBottom: '8px' }}
                       >
-                        <EditTypo>
-                          {`${reminders[0].time} - ${reminders[0].title}`}
-                        </EditTypo>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirecction: 'column',
+                          }}
+                        >
+                          <EditTypo
+                            noWrap
+                            sx={{ fontSize: '14px' }}
+                          >{`${reminders[0].title}`}</EditTypo>
+                        </Box>
+                        <Box>
+                          <EditTypo
+                            sx={{ fontSize: '14px' }}
+                          >{`${reminders[0].time}`}</EditTypo>
+                        </Box>
                       </Box>
-                      <AddEventTypo onClick={handleModalAdd}>
-                        + add event
-                      </AddEventTypo>
+                      <AddEventModal day={number} />
                       <EditEventModal
                         data={reminders[0]}
                         open={openEdit[reminders[0].id]}
@@ -79,30 +120,59 @@ export default function Day({ number, reminders }) {
                     </Box>
                   ) : (
                     <>
-                      <Box sx={{ height: '80%' }}>
+                      <Box
+                        sx={{
+                          height: '80%',
+
+                          paddingLeft: '8px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                        }}
+                      >
                         <Box
-                          name='1'
-                          id='1'
                           onClick={() => handleModalEdit(reminders[0].id)}
-                          sx={{
-                            display: 'flex',
-                            flexDirecction: 'row',
-                          }}
+                          sx={{ paddingBottom: '8px' }}
                         >
-                          <EditTypo>{`${reminders[0].time} - ${reminders[0].title}`}</EditTypo>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirecction: 'column',
+                            }}
+                          >
+                            <EditTypo
+                              noWrap
+                              sx={{ fontSize: '14px' }}
+                            >{`${reminders[0].title}`}</EditTypo>
+                          </Box>
+                          <Box>
+                            <EditTypo
+                              sx={{ fontSize: '14px' }}
+                            >{`${reminders[0].time}`}</EditTypo>
+                          </Box>
                         </Box>
+
                         <EditEventModal
                           data={reminders[0]}
                           open={openEdit[reminders[0].id]}
                           handleModalEdit={handleModalEdit}
                         />
-                        <Box
-                          name='1'
-                          id='1'
-                          onClick={() => handleModalEdit(reminders[1].id)}
-                          sx={{ display: 'flex', flexDirecction: 'row' }}
-                        >
-                          <EditTypo>{`${reminders[1].time} - ${reminders[1].title}`}</EditTypo>
+                        <Box onClick={() => handleModalEdit(reminders[1].id)}>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirecction: 'column',
+                            }}
+                          >
+                            <EditTypo
+                              sx={{ fontSize: '14px' }}
+                              noWrap
+                            >{`${reminders[1].title}`}</EditTypo>
+                          </Box>
+                          <Box>
+                            <EditTypo
+                              sx={{ fontSize: '14px' }}
+                            >{`${reminders[1].time}`}</EditTypo>
+                          </Box>
                         </Box>
                         <EditEventModal
                           data={reminders[1]}
@@ -110,30 +180,37 @@ export default function Day({ number, reminders }) {
                           handleModalEdit={handleModalEdit}
                         />
                       </Box>
-                      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          marginTop: '65px',
+                          marginLeft: '90px',
+                        }}
+                      >
                         <ExpandEventsModal day={number} />
                       </Box>
                     </>
                   )
                 ) : (
                   <>
-                    <AddEventTypo onClick={handleModalAdd}>
-                      + add event
-                    </AddEventTypo>
-                    <AddEventTypo onClick={handleModalAdd}>
-                      + add event
-                    </AddEventTypo>
+                    <Box sx={{ paddingTop: '8px', paddingLeft: '8px' }}>
+                      <Box sx={{ paddingBottom: '16px' }}>
+                        <AddEventModal day={number} />
+                      </Box>
+                      <Box>
+                        <AddEventModal day={number} />
+                      </Box>
+                    </Box>
                   </>
                 )}
               </Box>
             </StyledCard>
           </Box>
-          <AddEventModal open={openAdd} setOpen={setOpenAdd} day={number} />
         </>
       ) : (
         <Box>
           <StyledCard
-            elevation={3}
+            elevation={2}
             sx={{
               width: 128,
               height: 128,

@@ -1,4 +1,3 @@
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Confirm from './modals/ConfirmModal';
 import ButtonDialog from './modals/ButtonDialog';
 import { Button } from '@mui/material';
@@ -10,6 +9,7 @@ export default function DeleteButton({
   isOpen,
   id,
   handleClose,
+  icon,
 }) {
   const { setTriggerUpdate } = useContext(CalendarContext);
   const [loading, setLoading] = useState(false);
@@ -35,20 +35,17 @@ export default function DeleteButton({
 
   // or may be use a useFetch.
   return (
-    <div>
+    <div style={{ marginRight: '8px' }}>
       <Button
-        variant='contained'
+        variant='text'
         sx={{
-          backgroundColor: 'primary.main',
-          color: 'primary.contrastText',
+          color: 'text.primary',
           minWidth: '64px',
           '&hover': '',
         }}
         onClick={handleConfirm}
-        startIcon={<DeleteForeverIcon sx={{ width: '18px', heigth: '18px' }} />}
-      >
-        Delete
-      </Button>
+        startIcon={icon}
+      ></Button>
       <Confirm
         onClose={handleClose}
         error={error}

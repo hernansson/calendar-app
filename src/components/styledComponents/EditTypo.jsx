@@ -2,7 +2,7 @@ import { styled, Typography } from '@mui/material';
 
 export const EditTypo = styled(Typography)`
   &:hover {
-    color: #d10000;
+    color: #198d23;
     cursor: pointer;
   }
   &:focus {

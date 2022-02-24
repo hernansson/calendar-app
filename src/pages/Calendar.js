@@ -20,7 +20,9 @@ function Calendar(props) {
         }}
       >
         <Box component={'div'}>
-          <Typography variant='h2'>Calendar 2022</Typography>
+          <Typography variant='h2' color={'text.primary'}>
+            Calendar 2022
+          </Typography>
         </Box>
         <Box
           sx={{
@@ -76,9 +78,9 @@ function Calendar(props) {
 
           <Stack>
             {Object.keys(monthInfo).map((week) => (
-              <Stack direction='row' spacing={0.5} justifyContent='center'>
+              <Stack direction='row' justifyContent='center'>
                 {monthInfo[week].map((day) => (
-                  <Stack spacing={0.5}>{day}</Stack>
+                  <Stack sx={{ padding: '2px' }}>{day}</Stack>
                 ))}
               </Stack>
             ))}

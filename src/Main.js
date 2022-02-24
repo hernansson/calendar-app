@@ -7,8 +7,14 @@ import CalendarContextProvider from './context/calendarContext';
 import NavBar from './components/navbar/Navbar';
 function Main() {
   const { theme } = useContext(themeContext);
+
   return (
-    <div className='main'>
+    <div
+      className='main'
+      style={{
+        backgroundColor: theme.palette.mode == 'light' ? 'white' : '#121212',
+      }}
+    >
       <ThemeProvider theme={theme}>
         <CalendarContextProvider>
           <NavBar />

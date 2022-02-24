@@ -1,4 +1,4 @@
-export const week = [
+export const days = [
   'Sunday',
   'Monday',
   'Tuesday',
