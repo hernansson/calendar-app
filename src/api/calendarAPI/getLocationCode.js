@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export const getLocationCode = async (city) => {
-  const formatCity = city.replace(' ', '+');
-  const { data } = await axios({
-    url: `https://www.metaweather.com/api/location/search/?query=${formatCity}`,
+    const formatCity = city.replace(' ', '+')
+    const { data } = await axios({
+        url: `https://www.metaweather.com/api/location/search/?query=${formatCity}`,
+        mode: 'cors',
+        method: 'GET',
+    })
 
-    method: 'GET',
-  });
-
-  return data;
-};
+    return data
+}

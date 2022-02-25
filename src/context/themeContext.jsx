@@ -1,39 +1,40 @@
-import { useMemo, useState, createContext } from 'react';
-import { createTheme } from '@mui/material/styles';
-export const themeContext = createContext({ toggleColorMode: () => {} });
+import { useMemo, useState, createContext } from 'react'
+import { createTheme } from '@mui/material/styles'
 
-const ThemeContextProvider = ({ children }) => {
-  const [mode, setMode] = useState('light');
+export const themeContext = createContext({ toggleColorMode: () => {} })
 
-  const colorMode = useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-      },
-    }),
-    []
-  );
+function ThemeContextProvider({ children }) {
+    const [mode, setMode] = useState('light')
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-        },
-      }),
-    [mode]
-  );
+    const colorMode = useMemo(
+        () => ({
+            toggleColorMode: () => {
+                setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
+            },
+        }),
+        []
+    )
 
-  return (
-    <themeContext.Provider
-      value={{
-        theme,
-        colorMode,
-      }}
-    >
-      {children}
-    </themeContext.Provider>
-  );
-};
+    const theme = useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode,
+                },
+            }),
+        [mode]
+    )
 
-export default ThemeContextProvider;
+    return (
+        <themeContext.Provider
+            value={{
+                theme,
+                colorMode,
+            }}
+        >
+            {children}
+        </themeContext.Provider>
+    )
+}
+
+export default ThemeContextProvider

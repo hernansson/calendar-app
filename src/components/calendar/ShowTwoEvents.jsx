@@ -1,76 +1,78 @@
-import React, { memo } from 'react';
-import { Box } from '@mui/material';
-import { EditTypo } from '../styledComponents/EditTypo';
-import EditEventModal from './modals/EditEventModal';
-import { useContext } from 'react';
-import { CalendarContext } from '../../context/calendarContext';
+import React, { memo, useContext } from 'react'
+import { Box } from '@mui/material'
+import { EditTypo } from '../styledComponents/EditTypo'
+import EditEventModal from './modals/EditEventModal'
 
-//Maybe More than 2, if we update the UI - we coudl just pass reminders in general and map it.
-const ShowTwoEvents = ({ reminderOne, reminderTwo }) => {
-  const { isModalReminderOpen, setIsModalReminderOpen } =
-    useContext(CalendarContext);
+import { CalendarContext } from '../../context/calendarContext'
 
-  const handleModalEdit = (e) => {
-    setIsModalReminderOpen({
-      ...isModalReminderOpen,
-      [e]: !isModalReminderOpen[e],
-    });
-  };
-  return (
-    <>
-      <Box
-        onClick={() => handleModalEdit(reminderOne.id)}
-        sx={{ paddingBottom: '8px' }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirecction: 'column',
-          }}
-        >
-          <EditTypo
-            noWrap
-            sx={{ fontSize: '14px' }}
-          >{`${reminderOne.title}`}</EditTypo>
-        </Box>
-        <Box>
-          <EditTypo sx={{ fontSize: '14px' }}>{`${reminderOne.time}`}</EditTypo>
-        </Box>
-      </Box>
+// Maybe More than 2, if we update the UI - we coudl just pass reminders in general and map it.
+function ShowTwoEvents({ reminderOne, reminderTwo }) {
+    const { isModalReminderOpen, setIsModalReminderOpen } =
+        useContext(CalendarContext)
 
-      <EditEventModal
-        data={reminderOne}
-        open={isModalReminderOpen[reminderOne.id]}
-        handleModalEdit={handleModalEdit}
-      />
+    const handleModalEdit = (e) => {
+        setIsModalReminderOpen({
+            ...isModalReminderOpen,
+            [e]: !isModalReminderOpen[e],
+        })
+    }
+    return (
+        <>
+            <Box
+                onClick={() => handleModalEdit(reminderOne.id)}
+                sx={{ paddingBottom: '8px' }}
+            >
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirecction: 'column',
+                    }}
+                >
+                    <EditTypo noWrap sx={{ fontSize: '14px' }}>
+                        {`${reminderOne.title}`}
+                    </EditTypo>
+                </Box>
+                <Box>
+                    <EditTypo
+                        sx={{ fontSize: '14px' }}
+                    >{`${reminderOne.time}`}</EditTypo>
+                </Box>
+            </Box>
 
-      <Box
-        onClick={() => handleModalEdit(reminderTwo.id)}
-        sx={{ paddingBottom: '8px' }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirecction: 'column',
-          }}
-        >
-          <EditTypo
-            noWrap
-            sx={{ fontSize: '14px' }}
-          >{`${reminderTwo.title}`}</EditTypo>
-        </Box>
-        <Box>
-          <EditTypo sx={{ fontSize: '14px' }}>{`${reminderTwo.time}`}</EditTypo>
-        </Box>
-      </Box>
+            <EditEventModal
+                data={reminderOne}
+                open={isModalReminderOpen[reminderOne.id]}
+                handleModalEdit={handleModalEdit}
+            />
 
-      <EditEventModal
-        data={reminderTwo}
-        open={isModalReminderOpen[reminderTwo.id]}
-        handleModalEdit={handleModalEdit}
-      />
-    </>
-  );
-};
+            <Box
+                onClick={() => handleModalEdit(reminderTwo.id)}
+                sx={{ paddingBottom: '8px' }}
+            >
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirecction: 'column',
+                    }}
+                >
+                    <EditTypo noWrap sx={{ fontSize: '14px' }}>
+                        {`${reminderTwo.title}`}
+                    </EditTypo>
+                </Box>
+                <Box>
+                    <EditTypo
+                        sx={{ fontSize: '14px' }}
+                    >{`${reminderTwo.time}`}</EditTypo>
+                </Box>
+            </Box>
 
-export default memo(ShowTwoEvents);
+            <EditEventModal
+                data={reminderTwo}
+                open={isModalReminderOpen[reminderTwo.id]}
+                handleModalEdit={handleModalEdit}
+            />
+        </>
+    )
+}
+
+export default memo(ShowTwoEvents)

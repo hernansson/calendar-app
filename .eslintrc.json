@@ -1,14 +1,46 @@
 {
-    "extends": "react-app",
-    "plugins": ["react-hooks"],
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node":true,
+        "jest":true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+        
+    },
+    "plugins": [
+        "react"
+    ],
     "rules": {
-        "react-hooks/exhaustive-deps": "warn",
         "react/react-in-jsx-scope": "off",
-        "object-curly-newline": ["error", { "consistent": true, "minProperties": 7 }],
-        "no-alert": "error",
-        "jsx-quotes": [
-            "error",
-            "prefer-single"
-        ]
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "import/prefer-default-export": "off",
+        "quotes": [
+            2,
+            "single"
+        ],
+        "react/prop-types": "off",
+        "react/no-children-prop": 0
+        
     }
+   
+        
+   
 }

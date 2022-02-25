@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.26.0",
     "node-sass": "^5.0.0",
+    "prettier": "^2.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^7.27.1",
@@ -33,7 +34,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:dev": "react-scripts test --watchAll",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "npx eslint \"src/**/*.{js,jsx}\" --fix",
+    "prettier": "npx prettier --write ./src"
   },
   "eslintConfig": {
     "extends": [
@@ -52,5 +55,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0"
   }
 }
