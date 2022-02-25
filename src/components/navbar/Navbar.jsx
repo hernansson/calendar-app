@@ -14,7 +14,7 @@ function NavBar() {
     const { theme, colorMode } = useContext(themeContext)
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, width: '100%' }}>
             <AppBar position="static">
                 <Toolbar>
                     <Typography
@@ -22,7 +22,7 @@ function NavBar() {
                         component="div"
                         sx={{ flexGrow: 1, marginTop: '0' }}
                     >
-                        {'Hernan\'s Calendar :D'}
+                        {'Hernan Calendar :D'}
                     </Typography>
                     <Box style={{ display: 'flex' }}>
                         <FormControlLabel
