@@ -33,9 +33,7 @@ function AddEventModal({ day, minimalist }) {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({
-        resolver: yupResolver(validationSchema),
-    })
+    } = useForm({ resolver: yupResolver(validationSchema) })
     // I'll use async await, just show . but Its always better to choose one.
 
     const handleBlur = (e) => {
@@ -86,6 +84,7 @@ function AddEventModal({ day, minimalist }) {
                             margin="dense"
                             variant="standard"
                             autoComplete="off"
+                            inputProps={{ maxLength: 30 }}
                             {...register('title')}
                             error={!!errors.title}
                         />
@@ -107,12 +106,8 @@ function AddEventModal({ day, minimalist }) {
                             defaultValue="07:30"
                             {...register('time')}
                             error={!!errors.time}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            inputProps={{
-                                step: 300, // 5 min
-                            }}
+                            InputLabelProps={{ shrink: true }}
+                            inputProps={{ step: 300 }}
                             sx={{ width: 150 }}
                         />
 
@@ -127,6 +122,7 @@ function AddEventModal({ day, minimalist }) {
                             margin="dense"
                             variant="standard"
                             autoComplete="off"
+                            inputProps={{ maxLength: 30 }}
                             onChange={handleCity}
                             onBlur={handleBlur}
                             error={!!errors.city}
@@ -145,6 +141,7 @@ function AddEventModal({ day, minimalist }) {
                             name="description"
                             label="Description"
                             fullWidth
+                            inputProps={{ maxLength: 30 }}
                             margin="dense"
                             variant="standard"
                             autoComplete="off"

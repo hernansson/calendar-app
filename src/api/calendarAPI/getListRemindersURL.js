@@ -6,12 +6,10 @@ import axios from 'axios'
 export const getListRemindersURL = async (month) => {
     if (month === 2) {
         const { data } = await axios({
-            url: `https://${process.env.REACT_APP_MOCKAPI_KEY}.mockapi.io/calendar/v1/year/1/month`,
+url: `https://${process.env.REACT_APP_MOCKAPI_KEY}.mockapi.io/calendar/v1/year/1/month`,
             method: 'GET',
-            headers: {
-                'content-type': 'application/json',
-            },
-        })
+            headers: {'content-type': 'application/json',},
+})
 
         return data
     }

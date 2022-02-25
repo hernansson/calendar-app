@@ -37,7 +37,10 @@
             "single"
         ],
         "react/prop-types": "off",
-        "react/no-children-prop": 0
+        "react/no-children-prop": 0,
+        "object-curly-newline": 0
+           
+     
         
     }
    

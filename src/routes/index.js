@@ -4,20 +4,20 @@ import Error from '../pages/Error'
 
 const Routes = [
     {
-        path: '/',
+path: '/',
         component: <App />,
         exact: true,
-    },
+},
     {
-        path: '/calendar',
+path: '/calendar',
         component: <Calendar />,
         exact: true,
-    },
+},
     {
-        path: '/error',
+path: '/error',
         component: <Error />,
         exact: true,
-    },
+},
 ]
 
 export default Routes

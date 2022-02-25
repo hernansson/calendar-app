@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { weatherAbbr } from '../../constants/weatherAbbr'
 
-export default function WeatherIcon({ weather }) {
+function WeatherIcon({ weather }) {
     const isWeatherValid = weatherAbbr.includes(weather)
 
     return (
@@ -20,3 +20,4 @@ export default function WeatherIcon({ weather }) {
         />
     )
 }
+export default memo(WeatherIcon)

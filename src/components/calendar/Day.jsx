@@ -6,8 +6,9 @@ import { getDayString } from '../../utils/getDayString'
 import ShowOneEvent from './ShowOneEvent'
 import ShowTwoEvents from './ShowTwoEvents'
 import '@fontsource/roboto/500.css'
+import { memo } from 'react'
 
-export default function Day({ number, reminders }) {
+const Day = ({ number, reminders }) => {
     return (
         <>
             {number ? (
@@ -32,6 +33,7 @@ export default function Day({ number, reminders }) {
                                     backgroundColor: 'warning.main',
                                     display: 'flex',
                                     justifyContent: 'center',
+                                    borderBottomRightRadius: '4px',
                                 }}
                             >
                                 <Typography
@@ -138,3 +140,5 @@ export default function Day({ number, reminders }) {
         </>
     )
 }
+
+export default memo(Day)

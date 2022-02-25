@@ -15,15 +15,7 @@ function ThemeContextProvider({ children }) {
         []
     )
 
-    const theme = useMemo(
-        () =>
-            createTheme({
-                palette: {
-                    mode,
-                },
-            }),
-        [mode]
-    )
+    const theme = useMemo(() => createTheme({ palette: { mode } }), [mode])
 
     return (
         <themeContext.Provider

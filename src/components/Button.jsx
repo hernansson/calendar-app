@@ -8,7 +8,7 @@ function Button(props) {
 }
 
 Button.propTypes = {
-    onClick: PropTypes.func.isRequired,
+onClick: PropTypes.func.isRequired,
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node,

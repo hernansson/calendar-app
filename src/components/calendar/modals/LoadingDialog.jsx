@@ -24,14 +24,8 @@ const useStyles = makeStyles({
         overflow: 'hidden',
         alignSelf: 'center',
     },
-    box: {
-        '& > * + *': {
-            marginLeft: 8,
-        },
-    },
-    title: {
-        alignSelf: 'center',
-    },
+    box: { '& > * + *': { marginLeft: 8 } },
+    title: { alignSelf: 'center' },
 })
 
 const switchContent = {

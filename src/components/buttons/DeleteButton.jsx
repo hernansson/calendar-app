@@ -1,17 +1,11 @@
 import { Button } from '@mui/material'
-import { useContext, useState } from 'react'
+import { memo, useContext, useState } from 'react'
 import Confirm from '../calendar/modals/ConfirmModal'
 import ButtonDialog from '../calendar/modals/ButtonDialog'
 import { deleteReminder } from '../../api/calendarAPI/deleteReminder'
 import { CalendarContext } from '../../context/calendarContext'
 
-export default function DeleteButton({
-    handleConfirm,
-    isOpen,
-    id,
-    handleClose,
-    icon,
-}) {
+function DeleteButton({ handleConfirm, isOpen, id, handleClose, icon }) {
     const { setTriggerUpdate } = useContext(CalendarContext)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
@@ -74,3 +68,4 @@ export default function DeleteButton({
         </div>
     )
 }
+export default memo(DeleteButton)

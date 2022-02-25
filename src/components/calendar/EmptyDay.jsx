@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material'
+import { memo } from 'react'
 import { StyledCard } from '../styledComponents/StyledCard'
 
-export default function EmptyDay({ number }) {
+function EmptyDay({ number }) {
     return (
         <>
             {!number ? (
@@ -49,3 +50,5 @@ export default function EmptyDay({ number }) {
         </>
     )
 }
+
+export default memo(EmptyDay)

@@ -12,11 +12,7 @@ import {
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import PropTypes from 'prop-types'
 
-const Box = styled(MuiBox)({
-    '& > *': {
-        marginTop: 16,
-    },
-})
+const Box = styled(MuiBox)({ '& > *': { marginTop: 16 } })
 
 export default function Confirm({
     onClose,
@@ -34,23 +30,35 @@ export default function Confirm({
     return (
         <Dialog
             onClose={onClose}
-            PaperProps={{ style: { width: 464, padding: 36 } }}
+            PaperProps={{ style: { width: 400, padding: 24 } }}
             open={isOpen}
         >
-            <DialogTitle style={{ padding: 0 }} disableTypography>
-                <Typography variant="h5">{title}</Typography>
+            <DialogTitle
+                style={{
+                    padding: '16px',
+                    justifyContent: 'center',
+                    display: 'flex',
+                }}
+                disableTypography
+            >
+                <Typography color="text.primary" variant="h5">
+                    {title}
+                </Typography>
             </DialogTitle>
-            <DialogContent style={{ padding: 0, marginTop: 24 }}>
+            <DialogContent style={{ padding: 0, marginTop: 0 }}>
                 <Box>
-                    <MuiBox style={{ display: 'flex', gap: 16 }}>
+                    <MuiBox
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                    >
                         <InfoOutlinedIcon
                             style={{
                                 alignSelf: 'center',
-                                fontSize: 32,
+                                fontSize: 48,
                                 color: '#FF7A00',
+                                marginRight: '8px',
                             }}
                         />
-                        <Typography style={{ color: '#474747' }} variant="h4">
+                        <Typography color="text.primary" variant="h6">
                             {message}
                         </Typography>
                     </MuiBox>

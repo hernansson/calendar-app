@@ -21,9 +21,9 @@ export default function useFetch(url, options, func) {
     }, [url]) // eslint-disable-line
 
     return {
-        data,
+data,
         loading,
         error,
         refetch,
-    }
+}
 }

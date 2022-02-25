@@ -29,8 +29,6 @@ function Counter({ limit }) {
     )
 }
 
-Counter.propTypes = {
-    limit: PropTypes.number,
-}
+Counter.propTypes = {limit: PropTypes.number,}
 
 export default Counter

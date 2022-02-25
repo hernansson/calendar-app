@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { memo, useContext } from 'react'
 import { Stack, Box, Typography, IconButton } from '@mui/material'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft'
@@ -94,4 +94,4 @@ function Calendar() {
     )
 }
 
-export default Calendar
+export default memo(Calendar)

@@ -1,7 +1,19 @@
 import { render, fireEvent, screen } from '@testing-library/react'
 import Counter from './Counter'
+import AddEventModal from './calendar/modals/AddEventModal'
+import { CalendarContext } from '../context/calendarContext'
 
-test('Counter component', () => {
+const customRender = (ui, { providerProps, ...renderOptions }) => {
+    return render(
+        <CalendarContext.Provider {...providerProps}>
+            {ui}
+        </CalendarContext.Provider>,
+        renderOptions
+    )
+}
+console.log(customRender)
+
+/*test('Counter component', () => {
     render(<Counter limit={5} />)
     expect(screen.getByText(/^counter:/i)).toHaveTextContent('Counter: 0')
     fireEvent.click(screen.getByText(/increment/i))
@@ -32,4 +44,4 @@ test('Counter component', () => {
     fireEvent.click(screen.getByText(/increment/i))
     expect(screen.getByText(/^counter:/i)).toHaveTextContent('Counter: 5')
     expect(screen.queryByText(/^you reached the limit/i)).toBeInTheDocument()
-})
+})*/

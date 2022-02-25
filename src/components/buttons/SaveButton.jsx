@@ -1,7 +1,8 @@
 import SaveIcon from '@mui/icons-material/Save'
 import { Button } from '@mui/material'
+import { memo } from 'react'
 
-export default function SaveButton({ handleSubmit }) {
+function SaveButton({ handleSubmit }) {
     return (
         <div>
             <Button
@@ -20,3 +21,4 @@ export default function SaveButton({ handleSubmit }) {
         </div>
     )
 }
+export default memo(SaveButton)
