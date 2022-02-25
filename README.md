@@ -18,6 +18,7 @@
     <ul>
       <a href="#about-the-project">About The Project</a>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#considerations">Considerations</a></li>
     </ul>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -50,6 +51,16 @@ A calendar built with React & co.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+### Considerations
+
+1. I used [MetaWeather](https://www.metaweather.com/api/), in order to request the data correctly you need to enable cors.
+   It does not support all cities (at least the free version) just use 'New York' - 'Buenos Aires' - 'Tokyo' - Or try to find another one.
+2. In a real project I would you the Google Location API / Autocomplete - Just to make sure the location exists.
+3. I tried 2 free API's in one of them I run out of request (only supported 50, big F), the other one did not let me use PUT/DELETE/POST - only GET. So finally I decided to go with [Mockapi](https://mockapi.io/). This let me do every HTTP Request, but limits the data tree... So the Calendar SHOULD work with all months if data is provided (But for now it will only show Feb)
+4. I was told not to implement anything in the back, but if you wish I can make an API, and connect it to firebase, or a localDB
+5. For state management I consider Context plays the perfect role for this type of projects. For complex ones, I do consider it could also be done, but maybe Redux its better in some cases ( or any other).
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 <!-- GETTING STARTED -->
 
 ## Getting Started
@@ -66,9 +77,11 @@ To get a local copy up and running follow these simple example steps.
 
 1. Open Terminal
 2. Clone the repo
-    ```sh
-    git clone git@git.jobsity.com:hernansson/react-calendar.git
-    ```
+
+```sh
+git clone git@git.jobsity.com:hernansson/react-calendar.git
+```
+
 3. Navigate to 'react-calendar' folder
 
 ```sh

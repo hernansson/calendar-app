@@ -8,10 +8,7 @@ function Counter({ limit }) {
 
     return (
         <div className="counter">
-            <h3>
-                Counter:
-                {count}
-            </h3>
+            <h3>Counter:{count}</h3>
             <Button
                 onClick={() => {
                     if (isLimitReached) return
