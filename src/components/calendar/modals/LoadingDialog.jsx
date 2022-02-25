@@ -139,8 +139,6 @@ LoadingDialog.propTypes = {
     state: PropTypes.oneOf(['loading', 'success', 'error']),
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    onTryAgain: PropTypes.func.isRequired,
-    onCancel: PropTypes.func,
     successButtonText: PropTypes.string,
     errorButtonText: PropTypes.string,
     onSuccess: PropTypes.bool,

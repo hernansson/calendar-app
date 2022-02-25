@@ -20,7 +20,7 @@ function ShowTwoEvents({ reminderOne, reminderTwo }) {
         <>
             <Box
                 onClick={() => handleModalEdit(reminderOne.id)}
-                sx={{ paddingBottom: '8px' }}
+                sx={{ paddingBottom: '4px' }}
             >
                 <Box
                     sx={{

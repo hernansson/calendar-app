@@ -1,11 +1,12 @@
-import { Button } from '@mui/material'
+import { IconButton, Box } from '@mui/material'
 import { memo, useContext, useState } from 'react'
 import Confirm from '../calendar/modals/ConfirmModal'
 import ButtonDialog from '../calendar/modals/ButtonDialog'
 import { deleteReminder } from '../../api/calendarAPI/deleteReminder'
 import { CalendarContext } from '../../context/calendarContext'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
-function DeleteButton({ handleConfirm, isOpen, id, handleClose, icon }) {
+function DeleteButton({ handleConfirm, isOpen, id, handleClose }) {
     const { setTriggerUpdate } = useContext(CalendarContext)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
@@ -30,19 +31,12 @@ function DeleteButton({ handleConfirm, isOpen, id, handleClose, icon }) {
 
     // or may be use a useFetch.
     return (
-        <div style={{ marginRight: '8px' }}>
-            <Button
-                variant="text"
-                sx={{
-                    color: 'text.primary',
-                    minWidth: '64px',
-                    '&hover': '',
-                }}
-                onClick={handleConfirm}
-                startIcon={icon}
-            />
+        <Box>
+            <IconButton onClick={handleConfirm}>
+                <DeleteForeverIcon />
+            </IconButton>
             <Confirm
-                onClose={handleClose}
+                onClose={handleConfirm}
                 error={error}
                 isOpen={isOpen}
                 title="Are you Sure?"
@@ -65,7 +59,7 @@ function DeleteButton({ handleConfirm, isOpen, id, handleClose, icon }) {
                     onClose: handleClose,
                 }}
             />
-        </div>
+        </Box>
     )
 }
 export default memo(DeleteButton)

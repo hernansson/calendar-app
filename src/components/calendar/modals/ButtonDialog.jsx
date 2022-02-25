@@ -48,7 +48,6 @@ export default function ButtonDialog({
 }
 
 ButtonDialog.propTypes = {
-    url: PropTypes.string.isRequired,
     options: PropTypes.object,
     label: PropTypes.string,
     onClick: PropTypes.func,

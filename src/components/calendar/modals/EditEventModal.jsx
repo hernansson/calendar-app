@@ -12,7 +12,6 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { memo, useContext, useState } from 'react'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import EditIcon from '@mui/icons-material/Edit'
 import { validationSchema } from '../../validations/validationSchemas'
 import { updateReminder } from '../../../api/calendarAPI/updateReminder'
@@ -83,23 +82,25 @@ function EditEventModal({ open, handleModalEdit, data }) {
             city: cityEdit,
             weather: weatherEdit,
             monthId: day.toString(),
-        }).then((res) => {
-            setTriggerUpdate((prev) => !prev)
-
-            console.log('created Succesfully', res)
         })
+            .then((res) => {
+                setTriggerUpdate((prev) => !prev)
+                console.log('created Succesfully', res)
+            })
+            .catch((err) => console.error(err))
     }
     return (
         <div>
             <Modal open={open} onClose={handleClose}>
                 <Box sx={styles.box}>
-                    <Box sx={styles.modalText}>
+                    <Box>
                         <CloseButton handleClose={handleClose} />
                         <Box
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
                                 justifyContent: 'space-between',
+                                paddingLeft: '16px',
                             }}
                         >
                             <Typography
@@ -108,32 +109,41 @@ function EditEventModal({ open, handleModalEdit, data }) {
                             >
                                 {isEditable ? 'Edit Reminder' : 'Reminder'}
                             </Typography>
-                            <IconButton onClick={handleEdit}>
-                                <EditIcon />
-                            </IconButton>
+                            <Box sx={{ display: 'flex', columnGap: '8px' }}>
+                                <DeleteButton
+                                    handleConfirm={handleConfirmDelete}
+                                    isOpen={openConfirmDelete}
+                                    id={id}
+                                    handleClose={handleClose}
+                                />
+                                <IconButton onClick={handleEdit}>
+                                    <EditIcon />
+                                </IconButton>
+                            </Box>
                         </Box>
-
-                        <TextField
-                            id="title"
-                            name="title"
-                            label="Title"
-                            disabled={!isEditable}
-                            inputProps={{ maxLength: 30 }}
-                            fullWidth
-                            defaultValue={title}
-                            margin="dense"
-                            variant="standard"
-                            autoComplete="off"
-                            {...register('title')}
-                            error={!!errors.title}
-                        />
-                        <Typography
-                            variant="inherit"
-                            color="error"
-                            style={{ textAlign: 'left' }}
-                        >
-                            {errors.title?.message}
-                        </Typography>
+                        <Box sx={styles.modalText}>
+                            <TextField
+                                id="title"
+                                name="title"
+                                label="Title"
+                                disabled={!isEditable}
+                                inputProps={{ maxLength: 30 }}
+                                fullWidth
+                                defaultValue={title}
+                                margin="dense"
+                                variant="standard"
+                                autoComplete="off"
+                                {...register('title')}
+                                error={!!errors.title}
+                            />
+                            <Typography
+                                variant="inherit"
+                                color="error"
+                                style={{ textAlign: 'left' }}
+                            >
+                                {errors.title?.message}
+                            </Typography>
+                        </Box>
                     </Box>
                     <Box sx={styles.modalText}>
                         <FormControl variant="standard">
@@ -228,13 +238,6 @@ function EditEventModal({ open, handleModalEdit, data }) {
                             justifyContent: 'flex-end',
                         }}
                     >
-                        <DeleteButton
-                            handleConfirm={handleConfirmDelete}
-                            isOpen={openConfirmDelete}
-                            id={id}
-                            handleClose={handleClose}
-                            icon={<DeleteForeverIcon />}
-                        />
                         {isEditable && (
                             <SaveButton
                                 id={id}

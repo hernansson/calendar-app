@@ -108,6 +108,7 @@ function ExpandEventsModal({ day }) {
                                         <ListItemText
                                             primaryTypographyProps={{
                                                 fontSize: '18px',
+                                                color: 'text.primary',
                                             }}
                                             primary={remi.title}
                                             secondary={remi.time}

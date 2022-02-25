@@ -86,7 +86,7 @@ const Day = ({ number, reminders }) => {
                                         <Box
                                             sx={{
                                                 height: '80%',
-                                                paddingTop: '8px',
+                                                paddingTop: '4px',
                                                 paddingLeft: '8px',
                                             }}
                                         >

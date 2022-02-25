@@ -53,7 +53,10 @@ function AddEventModal({ day, minimalist }) {
         <div>
             {minimalist ? (
                 <IconButton onClick={handleModal}>
-                    <AddCircleIcon />
+                    <AddCircleIcon
+                        sx={{ color: 'primary.main' }}
+                        style={{ fontSize: 36 }}
+                    />
                 </IconButton>
             ) : (
                 <AddEventTypo
