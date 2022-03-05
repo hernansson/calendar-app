@@ -2,7 +2,6 @@ import { useState, createContext, useEffect } from 'react'
 import { getAllIds } from '../utils/getAllIds'
 import { getListRemindersURL } from '../api/calendarAPI/getListRemindersURL'
 import { fillCalendar } from '../utils/fillCalendar'
-import { updateCalendar } from '../utils/updateCalendar'
 
 export const CalendarContext = createContext()
 
@@ -13,19 +12,9 @@ function CalendarProvider({ children }) {
     const [isModalReminderOpen, setIsModalReminderOpen] = useState()
 
     useEffect(() => {
-        setMonthInfo(fillCalendar(month)) // API I chose does not support more request. At least show them empty
-
-        getListRemindersURL(month)
-            .then((reminders) => {
-                setIsModalReminderOpen(getAllIds(reminders))
-                setMonthInfo(updateCalendar(reminders, monthInfo, month))
-            })
-            .catch((err) =>
-                console.log(
-                    'API not yet implemented,UPGRADE PLAN (Sorry, I dont have any paid service :( )',
-                    err
-                )
-            )
+        const reminders = getListRemindersURL(month)
+        setIsModalReminderOpen(getAllIds(reminders))
+        setMonthInfo(fillCalendar(month, reminders))
     }, [month, triggerUpdate])
 
     return (

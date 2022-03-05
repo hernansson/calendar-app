@@ -2,7 +2,7 @@ import React, { memo, useContext } from 'react'
 import { Box } from '@mui/material'
 import { EditTypo } from '../styledComponents/EditTypo'
 import EditEventModal from './modals/EditEventModal'
-
+import { styles } from './styles'
 import { CalendarContext } from '../../context/calendarContext'
 
 // Maybe More than 2, if we update the UI - we coudl just pass reminders in general and map it.
@@ -20,27 +20,22 @@ function ShowTwoEvents({ reminderOne, reminderTwo }) {
         <>
             <Box
                 onClick={() => handleModalEdit(reminderOne.id)}
-                sx={{ paddingBottom: '4px' }}
+                sx={styles.paddingBottom}
             >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirecction: 'column',
-                    }}
-                >
-                    <EditTypo noWrap sx={{ fontSize: '14px' }}>
+                <Box sx={styles.columnLine}>
+                    <EditTypo noWrap sx={styles.editTypo}>
                         {`${reminderOne.title}`}
                     </EditTypo>
                 </Box>
                 <Box>
                     <EditTypo
-                        sx={{ fontSize: '14px' }}
+                        sx={styles.editTypo}
                     >{`${reminderOne.time}`}</EditTypo>
                 </Box>
             </Box>
 
             <EditEventModal
-                data={reminderOne}
+                info={reminderOne}
                 open={isModalReminderOpen[reminderOne.id]}
                 handleModalEdit={handleModalEdit}
             />
@@ -67,7 +62,7 @@ function ShowTwoEvents({ reminderOne, reminderTwo }) {
             </Box>
 
             <EditEventModal
-                data={reminderTwo}
+                info={reminderTwo}
                 open={isModalReminderOpen[reminderTwo.id]}
                 handleModalEdit={handleModalEdit}
             />

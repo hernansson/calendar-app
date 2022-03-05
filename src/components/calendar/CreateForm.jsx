@@ -9,15 +9,15 @@ import WeatherIcon from './WeatherIcon'
 import SaveIcon from '@mui/icons-material/Save'
 import { getWeatherInitials } from '../../utils/getWeatherInitials'
 import { styles } from './styles'
+import { buttonStyles } from '../buttons/buttonStyles'
 export default function CreateForm({ day }) {
-    const { setTriggerUpdate } = useContext(CalendarContext)
+    const { setTriggerUpdate, month } = useContext(CalendarContext)
     const [city, setCity] = useState('')
     const [weather, setWeather] = useState(null)
     const onSubmit = (data) => {
-        createReminder(day, { ...data, city, weather }).then((res) => {
-            setTriggerUpdate((prev) => !prev)
-            console.log('created Succesfully', res)
-        })
+        createReminder({ ...data, city, weather, day, month })
+        setTriggerUpdate((prev) => !prev)
+        console.log('created Succesfully')
     }
     const handleCity = (e) => {
         setCity(e.target.value)
@@ -129,23 +129,14 @@ export default function CreateForm({ day }) {
             <Box
                 sx={{
                     ...styles.modalText,
-                    paddingBottom: '16px',
-                    display: 'flex',
-                    justifyContent: 'flex-end',
+                    ...buttonStyles.saveButtonBox,
                 }}
             >
                 <Button
                     variant="contained"
-                    sx={{
-                        backgroundColor: 'primary.main',
-                        color: 'primary.contrastText',
-                        minWidth: '64px',
-                        '&hover': '',
-                    }}
+                    sx={buttonStyles.saveButton}
                     onClick={handleSubmit(onSubmit)}
-                    startIcon={
-                        <SaveIcon sx={{ width: '18px', heigth: '18px' }} />
-                    }
+                    startIcon={<SaveIcon sx={styles.saveIcon} />}
                 >
                     Create
                 </Button>

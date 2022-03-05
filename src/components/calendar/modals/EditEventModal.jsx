@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { memo, useContext, useState } from 'react'
+import { memo, useContext, useEffect, useState } from 'react'
 import EditIcon from '@mui/icons-material/Edit'
 import { validationSchema } from '../../validations/validationSchemas'
 import { updateReminder } from '../../../api/calendarAPI/updateReminder'
@@ -23,32 +23,20 @@ import WeatherIcon from '../WeatherIcon'
 import { getWeatherInitials } from '../../../utils/getWeatherInitials'
 import CloseButton from '../../buttons/CloseButton'
 import { getAllDaysInMonth } from '../../../utils/timeFunctions'
+import { months } from '../../../constants/months'
 
 // As im using useForm, I have some conflicts using the onBlur on register. So just created a state to manage city
 // separately. So as to show a weather icon on demand.
-function EditEventModal({ open, handleModalEdit, data }) {
-    const { setTriggerUpdate } = useContext(CalendarContext)
+function EditEventModal({ open, handleModalEdit, info }) {
+    const { setTriggerUpdate, month } = useContext(CalendarContext)
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false)
     const [openConfirmSave, setOpenConfirmSave] = useState(false)
-    const { title, city, description, id, time, weather, monthId } = data
-    const [cityEdit, setCityEdit] = useState(city)
+    const { title, city, description, id, time, weather, day } = info
     const [weatherEdit, setWeatherEdit] = useState(weather)
     const [isEditable, setIsEditable] = useState(false)
-    const [day, setDay] = useState(monthId)
 
-    //Just because of how api works :S
-    const handleDay = (event) => {
-        setDay(event.target.value)
-    }
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: 256,
-                width: 80,
-            },
-        },
-    }
     const {
+        setValue,
         register,
         handleSubmit,
         formState: { errors },
@@ -56,9 +44,6 @@ function EditEventModal({ open, handleModalEdit, data }) {
 
     const handleEdit = () => {
         setIsEditable((prev) => !prev)
-    }
-    const handleCity = (e) => {
-        setCityEdit(e.target.value)
     }
     const handleConfirmDelete = () => {
         setOpenConfirmDelete((prev) => !prev)
@@ -77,32 +62,32 @@ function EditEventModal({ open, handleModalEdit, data }) {
         handleModalEdit(id)
     }
     const onSubmit = (data) => {
-        updateReminder(id, {
+        updateReminder({
             ...data,
-            city: cityEdit,
+            id,
             weather: weatherEdit,
-            monthId: day.toString(),
         })
-            .then((res) => {
-                setTriggerUpdate((prev) => !prev)
-                console.log('created Succesfully', res)
-            })
-            .catch((err) => console.error(err))
+
+        setTriggerUpdate((prev) => !prev)
+        console.log('created Succesfully')
     }
+
+    useEffect(() => {
+        //default value
+        setValue('title', title)
+        setValue('description', description)
+        setValue('time', time)
+        setValue('day', day)
+        setValue('city', city)
+        setValue('month', month)
+    }, [])
     return (
         <div>
             <Modal open={open} onClose={handleClose}>
                 <Box sx={styles.box}>
                     <Box>
                         <CloseButton handleClose={handleClose} />
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                paddingLeft: '16px',
-                            }}
-                        >
+                        <Box sx={styles.eventModalBox}>
                             <Typography
                                 color="text.primary"
                                 sx={{ fontWeight: '400', fontSize: '20px' }}
@@ -129,7 +114,6 @@ function EditEventModal({ open, handleModalEdit, data }) {
                                 disabled={!isEditable}
                                 inputProps={{ maxLength: 30 }}
                                 fullWidth
-                                defaultValue={title}
                                 margin="dense"
                                 variant="standard"
                                 autoComplete="off"
@@ -145,26 +129,54 @@ function EditEventModal({ open, handleModalEdit, data }) {
                             </Typography>
                         </Box>
                     </Box>
-                    <Box sx={styles.modalText}>
-                        <FormControl variant="standard">
-                            <InputLabel>Day</InputLabel>
-                            <Select
-                                disabled={!isEditable}
-                                value={day}
-                                label="Day"
-                                onChange={handleDay}
-                                MenuProps={MenuProps}
-                            >
-                                {getAllDaysInMonth(2, 2022).map((day) => {
-                                    const num = day.getDate()
-                                    return (
-                                        <MenuItem key={num} value={num}>
-                                            {num}
-                                        </MenuItem>
-                                    )
-                                })}
-                            </Select>
-                        </FormControl>
+                    <Box sx={styles.inline}>
+                        <Box sx={styles.modalText}>
+                            <FormControl variant="standard">
+                                <InputLabel>Months</InputLabel>
+                                <Select
+                                    id="month"
+                                    name="month"
+                                    label="Month"
+                                    disabled={!isEditable}
+                                    MenuProps={styles.MenuPropsMonth}
+                                    defaultValue={month}
+                                    {...register('month')}
+                                >
+                                    {months.map((month, idx) => {
+                                        return (
+                                            <MenuItem key={idx} value={idx + 1}>
+                                                {month}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        <Box sx={styles.modalText}>
+                            <FormControl variant="standard">
+                                <InputLabel>Day</InputLabel>
+                                <Select
+                                    id="day"
+                                    name="day"
+                                    label="Day"
+                                    disabled={!isEditable}
+                                    MenuProps={styles.MenuProps}
+                                    defaultValue={day}
+                                    {...register('day')}
+                                >
+                                    {getAllDaysInMonth(month, 2022).map(
+                                        (day) => {
+                                            const num = day.getDate()
+                                            return (
+                                                <MenuItem key={num} value={num}>
+                                                    {num}
+                                                </MenuItem>
+                                            )
+                                        }
+                                    )}
+                                </Select>
+                            </FormControl>
+                        </Box>
                     </Box>
                     <Box sx={styles.modalText}>
                         <TextField
@@ -174,7 +186,6 @@ function EditEventModal({ open, handleModalEdit, data }) {
                             variant="standard"
                             disabled={!isEditable}
                             type="time"
-                            defaultValue={time}
                             {...register('time')}
                             error={!!errors.time}
                             InputLabelProps={{ shrink: true }}
@@ -195,8 +206,7 @@ function EditEventModal({ open, handleModalEdit, data }) {
                             margin="dense"
                             variant="standard"
                             autoComplete="off"
-                            onChange={handleCity}
-                            onBlur={handleBlur}
+                            {...register('city', { onBlur: handleBlur })}
                             error={!!errors.city}
                         />
                         <Typography
@@ -215,7 +225,6 @@ function EditEventModal({ open, handleModalEdit, data }) {
                             fullWidth
                             inputProps={{ maxLength: 30 }}
                             disabled={!isEditable}
-                            defaultValue={description}
                             margin="dense"
                             variant="standard"
                             autoComplete="off"

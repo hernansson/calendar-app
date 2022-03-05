@@ -9,24 +9,9 @@ import {
     Box,
     Typography,
 } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import { useStyles } from '../styles'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ErrorIcon from '@mui/icons-material/Error'
-
-const useStyles = makeStyles({
-    actions: {
-        marginTop: '32px',
-        justifyContent: 'space-around',
-    },
-    content: {
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-        alignSelf: 'center',
-    },
-    box: { '& > * + *': { marginLeft: 8 } },
-    title: { alignSelf: 'center' },
-})
 
 const switchContent = {
     loading: (

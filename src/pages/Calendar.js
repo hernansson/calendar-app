@@ -3,55 +3,35 @@ import { Stack, Box, Typography, IconButton } from '@mui/material'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft'
 import { CalendarContext } from '../context/calendarContext'
-
+import { pageStyle } from './pageStyles'
 import { getMonthName } from '../utils/timeFunctions'
 
 function Calendar() {
     const { month, setMonth, monthInfo } = useContext(CalendarContext)
-
+    const leftArrow = {
+        ...pageStyle.calendar.arrows,
+        visibility: month === 1 ? 'hidden' : 'visible',
+    }
+    const rightArrow = {
+        ...pageStyle.calendar.arrows,
+        visibility: month === 12 ? 'hidden' : 'visible',
+    }
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'column',
-            }}
-        >
+        <Box sx={pageStyle.calendar.main}>
             <Box component="div">
                 <Typography variant="h2" color="text.primary">
                     Calendar 2022
                 </Typography>
             </Box>
-            <Box
-                sx={{
-                    width: '1000px',
-                    backgroundColor: 'primary.main',
-                    marginTop: '10px',
-                    padding: '20px',
-                    borderRadius: '10px',
-                }}
-            >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}
-                >
+            <Box sx={pageStyle.calendar.calendarBox}>
+                <Box sx={pageStyle.calendar.calendarheader}>
                     <IconButton
                         disabled={month === 1}
                         onClick={() => {
                             setMonth((prev) => prev - 1)
                         }}
                     >
-                        <ArrowCircleLeftIcon
-                            sx={{
-                                height: '50px',
-                                width: '50px',
-                                color: 'primary.contrastText',
-                                visibility: month === 1 ? 'hidden' : 'visible',
-                            }}
-                        />
+                        <ArrowCircleLeftIcon sx={leftArrow} />
                     </IconButton>
                     <Typography color="primary.contrastText" variant="h4">
                         {getMonthName(month)}
@@ -63,14 +43,7 @@ function Calendar() {
                             setMonth((prev) => prev + 1)
                         }}
                     >
-                        <ArrowCircleRightIcon
-                            sx={{
-                                height: '50px',
-                                width: '50px',
-                                color: 'primary.contrastText',
-                                visibility: month === 12 ? 'hidden' : 'visible',
-                            }}
-                        />
+                        <ArrowCircleRightIcon sx={rightArrow} />
                     </IconButton>
                 </Box>
 

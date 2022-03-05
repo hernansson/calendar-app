@@ -21,7 +21,7 @@ import DeleteButton from '../../buttons/DeleteButton'
 import EditEventModal from './EditEventModal'
 
 function ExpandEventsModal({ day }) {
-    const { isModalReminderOpen, setIsModalReminderOpen } =
+    const { isModalReminderOpen, setIsModalReminderOpen, month } =
         useContext(CalendarContext)
 
     const handleModalEdit = (e) => {
@@ -48,11 +48,13 @@ function ExpandEventsModal({ day }) {
 
     useEffect(() => {
         if (open) {
-            setLoading(true)
-            getRemindersByDay(day)
-                .then((data) => setReminders(data.reminders))
-                .catch((err) => setError(err))
-                .finally(setLoading(false))
+            try {
+                setLoading(true)
+                setReminders(getRemindersByDay(day, month))
+                setLoading(false)
+            } catch {
+                setError(true)
+            }
         }
     }, [open, day])
 
@@ -75,7 +77,7 @@ function ExpandEventsModal({ day }) {
                             color="text.primary"
                             sx={{ fontWeight: '400', fontSize: '20px' }}
                         >
-                            {`${day}/02 - All Reminders`}
+                            {`${day}/${month} - All Reminders`}
                         </Typography>
                     </Box>
                     <List>
@@ -116,7 +118,7 @@ function ExpandEventsModal({ day }) {
                                     </ListItemButton>
                                 </ListItem>
                                 <EditEventModal
-                                    data={remi}
+                                    info={remi}
                                     open={isModalReminderOpen[remi.id]}
                                     handleModalEdit={handleModalEdit}
                                 />

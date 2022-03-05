@@ -1,17 +1,23 @@
-import EmptyDay from '../components/calendar/EmptyDay'
+import Day from '../components/calendar/Day'
 import { getAllDaysInMonth, getFirstDayIndex } from './timeFunctions'
 
-export const fillCalendar = (month) => {
+export const fillCalendar = (month, reminders) => {
     // Create a 7x5 array
+
     const emptyFixedArr = new Array(42)
         .fill(null)
-        .map((item, idx) => <EmptyDay key={idx} />)
+        .map((item, idx) => <Day key={idx} />)
     const allDays = getAllDaysInMonth(month, 2022)
     const firstDay = getFirstDayIndex(month, 2022)
-
     // Fill Arrays with empty Days
     for (let i = firstDay, j = 0; i < allDays.length + firstDay; i++, j++) {
-        emptyFixedArr[i] = <EmptyDay number={allDays[j].getDate()} />
+        const numberDay = allDays[j].getDate()
+        emptyFixedArr[i] = (
+            <Day
+                number={numberDay}
+                reminders={reminders?.filter((remi) => remi.day === numberDay)}
+            />
+        )
     }
 
     // Divide to match UI

@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import { EditTypo } from '../styledComponents/EditTypo'
 import AddEventModal from './modals/AddEventModal'
 import EditEventModal from './modals/EditEventModal'
-
+import { styles } from './styles'
 import { CalendarContext } from '../../context/calendarContext'
 
 function ShowOneEvent({ reminder, day }) {
@@ -17,36 +17,25 @@ function ShowOneEvent({ reminder, day }) {
         })
     }
     return (
-        <Box
-            sx={{
-                height: '80%',
-                paddingTop: '8px',
-                paddingLeft: '8px',
-            }}
-        >
+        <Box sx={styles.showOneEventBox}>
             <Box
                 onClick={() => handleModalEdit(reminder.id)}
-                sx={{ paddingBottom: '8px' }}
+                sx={styles.paddingBottom}
             >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirecction: 'column',
-                    }}
-                >
-                    <EditTypo noWrap sx={{ fontSize: '14px' }}>
+                <Box sx={styles.columnLine}>
+                    <EditTypo noWrap sx={styles.editTypo}>
                         {`${reminder.title}`}
                     </EditTypo>
                 </Box>
                 <Box>
                     <EditTypo
-                        sx={{ fontSize: '14px' }}
+                        sx={styles.editTypo}
                     >{`${reminder.time}`}</EditTypo>
                 </Box>
             </Box>
             <AddEventModal day={day} />
             <EditEventModal
-                data={reminder}
+                info={reminder}
                 open={isModalReminderOpen[reminder.id]}
                 handleModalEdit={handleModalEdit}
             />

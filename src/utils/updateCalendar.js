@@ -2,7 +2,7 @@ import { getFirstDayIndex } from './timeFunctions'
 import Day from '../components/calendar/Day'
 
 export const updateCalendar = (reminders, monthInformation, month) => {
-    if (reminders) {
+    if (reminders.length > 0) {
         const fullMonth = [
             ...monthInformation.week1,
             ...monthInformation.week2,

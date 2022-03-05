@@ -11,23 +11,24 @@ function DeleteButton({ handleConfirm, isOpen, id, handleClose }) {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
     const handleDelete = () => {
-        setLoading(true)
-        deleteReminder(id)
-            .then(() => setTriggerUpdate((prev) => !prev))
-            .catch((err) => {
-                setError(true)
-                console.error(err)
-            })
-            .finally(setLoading(false))
+        try {
+            setLoading(true)
+            deleteReminder(id)
+            setTriggerUpdate((prev) => !prev)
+            setLoading(false)
+        } catch {
+            setError(true)
+        }
     }
+
     // Another way of implementing.
 
-    /*  if (error) {
-      console.error(error); // Creating an error component would be ideal, but time.
+    if (error) {
+        console.error(error) // Creating an error component would be ideal, but time.
     }
     if (loading) {
-      return 'Loading'; // Also loader component. (same for every request.)
-    } */
+        return 'Loading' // Also loader component. (same for every request.)
+    }
 
     // or may be use a useFetch.
     return (

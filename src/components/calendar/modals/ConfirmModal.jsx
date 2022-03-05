@@ -8,7 +8,7 @@ import {
     DialogActions,
     styled,
 } from '@mui/material'
-
+import { styles } from '../styles'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import PropTypes from 'prop-types'
 
@@ -33,14 +33,7 @@ export default function Confirm({
             PaperProps={{ style: { width: 400, padding: 24 } }}
             open={isOpen}
         >
-            <DialogTitle
-                style={{
-                    padding: '16px',
-                    justifyContent: 'center',
-                    display: 'flex',
-                }}
-                disableTypography
-            >
+            <DialogTitle style={styles.dialogBox} disableTypography>
                 <Typography color="text.primary" variant="h5">
                     {title}
                 </Typography>
@@ -50,14 +43,7 @@ export default function Confirm({
                     <MuiBox
                         style={{ display: 'flex', justifyContent: 'center' }}
                     >
-                        <InfoOutlinedIcon
-                            style={{
-                                alignSelf: 'center',
-                                fontSize: 48,
-                                color: '#FF7A00',
-                                marginRight: '8px',
-                            }}
-                        />
+                        <InfoOutlinedIcon style={styles.InfoOutlinedIcone} />
                         <Typography color="text.primary" variant="h6">
                             {message}
                         </Typography>

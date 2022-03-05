@@ -7,74 +7,33 @@ import ShowOneEvent from './ShowOneEvent'
 import ShowTwoEvents from './ShowTwoEvents'
 import '@fontsource/roboto/500.css'
 import { memo } from 'react'
+import { styles } from './styles'
 
 const Day = ({ number, reminders }) => {
     return (
         <>
             {number ? (
                 <Box>
-                    <StyledCard
-                        elevation={2}
-                        sx={{
-                            width: 128,
-                            height: 128,
-                        }}
-                    >
+                    <StyledCard elevation={2} sx={styles.card}>
                         <Box
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
                             }}
                         >
-                            <Box
-                                sx={{
-                                    height: '25%',
-                                    width: '25%',
-                                    backgroundColor: 'warning.main',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    borderBottomRightRadius: '4px',
-                                }}
-                            >
-                                <Typography
-                                    sx={{
-                                        fontSize: '20px',
-                                        color: 'primary.contrastText',
-                                    }}
-                                >
+                            <Box sx={styles.dayNumberBox}>
+                                <Typography sx={styles.dayNumber}>
                                     {number}
                                 </Typography>
                             </Box>
-                            <Box
-                                sx={{
-                                    height: '25%',
-                                    width: '25%',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    paddingRight: '16px',
-                                }}
-                            >
-                                <Typography
-                                    sx={{
-                                        fontSize: '20px',
-                                        color: 'primary.main',
-                                        fontFamily: 'Roboto',
-                                        fontWeight: '400',
-                                    }}
-                                >
-                                    {/* should go month, if my API supported it :D */}
+                            <Box sx={styles.letterDayBox}>
+                                <Typography sx={styles.letterDay}>
                                     {number && getDayString(number)}
                                 </Typography>
                             </Box>
                         </Box>
 
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: '80%',
-                            }}
-                        >
+                        <Box sx={styles.reminderBox}>
                             {reminders?.length > 0 ? (
                                 reminders.length === 1 ? (
                                     <ShowOneEvent
@@ -83,36 +42,19 @@ const Day = ({ number, reminders }) => {
                                     />
                                 ) : (
                                     <>
-                                        <Box
-                                            sx={{
-                                                height: '80%',
-                                                paddingTop: '4px',
-                                                paddingLeft: '8px',
-                                            }}
-                                        >
+                                        <Box sx={styles.twoEventsBox}>
                                             <ShowTwoEvents
                                                 reminderOne={reminders[0]}
                                                 reminderTwo={reminders[1]}
                                             />
                                         </Box>
-                                        <Box
-                                            sx={{
-                                                position: 'absolute',
-                                                marginTop: '65px',
-                                                marginLeft: '90px',
-                                            }}
-                                        >
+                                        <Box sx={styles.expandDots}>
                                             <ExpandEventsModal day={number} />
                                         </Box>
                                     </>
                                 )
                             ) : (
-                                <Box
-                                    sx={{
-                                        paddingTop: '8px',
-                                        paddingLeft: '8px',
-                                    }}
-                                >
+                                <Box sx={styles.noEventBox}>
                                     <Box sx={{ paddingBottom: '16px' }}>
                                         <AddEventModal day={number} />
                                     </Box>
@@ -126,15 +68,7 @@ const Day = ({ number, reminders }) => {
                 </Box>
             ) : (
                 <Box>
-                    <StyledCard
-                        elevation={2}
-                        sx={{
-                            width: 128,
-                            height: 128,
-                            backgroundColor: 'text.primary',
-                            opacity: '75%',
-                        }}
-                    />
+                    <StyledCard elevation={2} sx={styles.noCard} />
                 </Box>
             )}
         </>
