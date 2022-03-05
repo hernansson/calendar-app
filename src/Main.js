@@ -13,6 +13,7 @@ function Main() {
         <div
             className="main"
             style={{
+                height: '100vh',
                 backgroundColor:
                     theme.palette.mode === 'light' ? 'white' : '#121212',
             }}
