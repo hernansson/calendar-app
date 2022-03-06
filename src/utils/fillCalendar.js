@@ -14,6 +14,7 @@ export const fillCalendar = (month, reminders) => {
         const numberDay = allDays[j].getDate()
         emptyFixedArr[i] = (
             <Day
+                month={month}
                 number={numberDay}
                 reminders={reminders?.filter((remi) => remi.day === numberDay)}
             />

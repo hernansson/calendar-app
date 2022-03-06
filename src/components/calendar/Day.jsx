@@ -9,7 +9,7 @@ import '@fontsource/roboto/500.css'
 import { memo } from 'react'
 import { styles } from './styles'
 
-const Day = ({ number, reminders }) => {
+const Day = ({ number, reminders, month }) => {
     return (
         <>
             {number ? (
@@ -28,7 +28,7 @@ const Day = ({ number, reminders }) => {
                             </Box>
                             <Box sx={styles.letterDayBox}>
                                 <Typography sx={styles.letterDay}>
-                                    {number && getDayString(number)}
+                                    {number && getDayString(number, month)}
                                 </Typography>
                             </Box>
                         </Box>
